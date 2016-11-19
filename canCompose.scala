@@ -35,9 +35,29 @@ object CanCompose {
     go(s, trie, List(s))
   }
 
-  val test1 = canCompose("bla",         List("blu", "bli", "bla", " "))
-  val test2 = canCompose("bla bli blu", List("blu", "bli", "bla", " "))
-  val test3 = canCompose("quick brown fox",
-    List("quick", "brown 1", "brow", "qui", "ck ", "n fox1", "n fox"))
-  val test4 = canCompose("bla",         List("bla1"))
+
+  def tests(): Unit = {
+    assert(canCompose("bla",         List("blu", "bli", "bla", " ")))
+    assert(canCompose("bla bli blu", List("blu", "bli", "bla", " ")))
+    assert(canCompose("quick brown fox", List("quick", "brown 1", "brow",
+                                              "qui", "ck ", "n fox1",
+                                              "n fox")))
+    assert(!canCompose("bla", List("bla1")))
+
+    assert(canCompose("abc", List("a", "b", "c")))
+    assert(canCompose("aaa", List("a", "b")))
+    assert(canCompose("foo", List("foo")))
+    assert(canCompose("quick brown fox",
+                       List("quick ", "own", "br", " fo", "ox", " f")))
+    assert(canCompose("", List("")))
+    assert(canCompose("", List(" ")))
+
+    assert(!canCompose("cat loves read", List("dog", "loves", " ", "read")))
+    assert(!canCompose("longread", List("long", "gread")))
+    assert(!canCompose("longread", List("longread1")))
+
+    assert(canCompose("longread",
+                      List("long", "gread", "lo", " ng", "re", "ad")))
+    println("All tests passed")
+  }
 }
