@@ -11,9 +11,8 @@ makeTrie s = Trie True (children (foldl addString emptyTrie s)) where
     Just t' -> Trie False $ (x, addString t' xs):(filter ((/=x).fst) cs)
 
 canCompose s dict = go s trie [s] where
-  go []       t@(Trie True  _) _      = True
-  go []       t@(Trie False _) _      = False
-  go s@(z:zs) t@(Trie _ cs)    stack  =
+  go []         (Trie t  _)   _   = t
+  go s@(z:zs) t@(Trie _ cs) stack =
     case lookup z cs of
       Nothing                 -> if null stack
                                  then False

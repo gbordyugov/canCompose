@@ -22,9 +22,7 @@ object CanCompose {
     val trie = Trie(dict)
 
     def go(s: String, t: Trie, stack: List[String]): Boolean = {
-      if (s.isEmpty)
-        if (t.terminal) true
-        else            false
+      if (s.isEmpty) t.terminal
       else if (!t.children.contains(s.head))
         if (stack.isEmpty) false
         else go(stack.head, trie, stack.tail)
