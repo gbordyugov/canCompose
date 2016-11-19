@@ -25,8 +25,7 @@ object CanCompose {
       else if (!t.children.contains(s.head)) {
         if (stack.isEmpty) false
         else go(stack.head, trie, stack.tail)
-      }
-      else {
+      } else {
         val subt = t.children(s.head);
         if (subt.terminal) go(s.tail, subt, s.tail::stack)
         else               go(s.tail, subt,         stack)
