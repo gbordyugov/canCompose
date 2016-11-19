@@ -22,7 +22,9 @@ object CanCompose {
     val trie = Trie(dict)
 
     def go(s: String, t: Trie, stack: List[String]): Boolean = {
-      if (s.isEmpty) true
+      if (s.isEmpty)
+        if (t.terminal) true
+        else            false
       else if (!t.children.contains(s.head)) {
         if (stack.isEmpty) false
         else go(stack.head, trie, stack.tail)
@@ -39,4 +41,5 @@ object CanCompose {
   val test2 = canCompose("bla bli blu", List("blu", "bli", "bla", " "))
   val test3 = canCompose("quick brown fox",
     List("quick", "brown 1", "brow", "qui", "ck ", "n fox1", "n fox"))
+  val test4 = canCompose("bla",         List("bla1"))
 }
