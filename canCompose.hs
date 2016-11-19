@@ -11,15 +11,17 @@ makeTrie = foldl addString emptyTrie where
     Just t' -> Trie False $ (x, addString t' xs):(filter ((/=x).fst) cs)
 
 canCompose s dict = go s trie [s] where
-  go [] _  _     = True
-  go _  t  []    = False
-  go _  _ ([]:r) = True
+  go []       _             _      = True
   go s@(z:zs) t@(Trie _ cs) stack  =
     case lookup z cs of
-      Nothing                 -> go s  trie (tail stack)
+      Nothing                 -> if null stack
+                                 then False
+                                 else go (head stack) trie (tail stack)
       Just t'@(Trie True  _)  -> go zs t'   (zs:stack)
       Just t'@(Trie False _)  -> go zs t'   stack
   trie = makeTrie dict
 
-main = putStrLn $
-  show $ canCompose "bli blu blee" [" ", "blee", "blu", "bli"]
+test1 = canCompose "quick brown fox"
+                    ["quick", "qui", "ck ", "brow", "n fox"]
+test2 = canCompose "quick brown fox" ["quick", "brown 1", "brow", "qui"
+                                     , "ck ", "n fox1", "n fox"]
