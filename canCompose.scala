@@ -4,7 +4,8 @@ object CanCompose {
   object Trie {
     val empty = new Trie(true, Map())
 
-    def apply(ss: List[String]): Trie = ss.foldLeft(empty)(addString)
+    def apply(ss: List[String]): Trie =
+      new Trie(true, ss.foldLeft(empty)(addString).children)
 
     def addString(t: Trie, s: String): Trie = {
       if (s.isEmpty)

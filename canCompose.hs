@@ -4,7 +4,7 @@ data Trie = Trie { terminal :: Bool
 
 emptyTrie = Trie True []
 
-makeTrie = foldl addString emptyTrie where
+makeTrie s = Trie True (children (foldl addString emptyTrie s)) where
   addString (Trie _ cs) [] = Trie True cs
   addString (Trie t cs) (x:xs) = case lookup x cs of
     Nothing -> Trie False $ (x, addString emptyTrie xs):cs
