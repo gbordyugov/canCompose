@@ -21,18 +21,37 @@ object CanCompose {
   def canCompose(s: String, dict: List[String]): Boolean = {
     val trie = Trie(dict)
 
+    /*
+     * as if strings were lists with fast head and tail methods
+     */
     def go(s: String, t: Trie, stack: List[String]): Boolean = {
       if (s.isEmpty) t.terminal
       else if (!t.children.contains(s.head))
         if (stack.isEmpty) false
         else go(stack.head, trie, stack.tail)
       else {
-        val subt = t.children(s.head);
+        val subt = t.children(s.head)
         if (subt.terminal) go(s.tail, subt, s.tail::stack)
         else               go(s.tail, subt,         stack)
       }
     }
-    go(s, trie, List(s))
+
+    /*
+     * int index-based solution
+     */
+    def goInt(i: Int, t: Trie, stack: List[Int]): Boolean = {
+      if (i == s.length) t.terminal
+      else if (!t.children.contains(s(i)))
+        if (stack.isEmpty) false
+        else goInt(stack.head, trie, stack.tail)
+      else {
+        val subt = t.children(s(i))
+        if (subt.terminal) goInt(i+1, subt, i+1::stack)
+        else               goInt(i+1, subt,      stack)
+      }
+    }
+    // go(s, trie, List(s))
+    goInt(0, trie, List(0))
   }
 
 
