@@ -8,8 +8,7 @@ object CanCompose {
       new Trie(true, ss.foldLeft(empty)(addString).children)
 
     def addString(t: Trie, s: String): Trie = {
-      if (s.isEmpty)
-        new Trie(true, t.children)
+      if (s.isEmpty) new Trie(true, t.children)
       else {
         val subt = t.children.getOrElse(s.head, {empty})
         val chds = t.children + (s.head -> addString(subt, s.tail))
