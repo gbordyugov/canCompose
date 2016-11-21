@@ -11,8 +11,10 @@ makeTrie s = Trie True (children (foldl addString emptyTrie s)) where
     Just t' -> Trie False $ (x, addString t' xs):(filter ((/=x).fst) cs)
 
 canCompose s dict = go s trie [s] where
-  go []     (Trie t  _)   _   = t
-  go (z:zs) (Trie _ cs) stack =
+  go []     (Trie True  _)  _ = True
+  go []     (Trie False _) [] = False
+  go []     (Trie False _)  s = go (head s) trie (tail s)
+  go (z:zs) (Trie _     cs)  stack =
     case lookup z cs of
       Nothing                 -> if null stack
                                  then False
@@ -25,4 +27,7 @@ test1 = canCompose "quick brown fox"
                     ["quick", "qui", "ck ", "brow", "n fox"]
 test2 = canCompose "quick brown fox" ["quick", "brown 1", "brow", "qui"
                                      , "ck ", "n fox1", "n fox"]
-test3 = canCompose "aba" ["aba1"]
+test3 = not $ canCompose "aba" ["aba1"]
+test4 = canCompose "abc" ["abcd", "ab", "c"]
+
+tests = and [test1, test2, test3, test4]

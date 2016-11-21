@@ -24,14 +24,26 @@ object CanCompose {
      * as if strings were lists with fast head and tail methods
      */
     def go(s: String, t: Trie, stack: List[String]): Boolean = {
-      if (s.isEmpty) t.terminal
-      else if (!t.children.contains(s.head))
-        if (stack.isEmpty) false
-        else go(stack.head, trie, stack.tail)
+      if (s.isEmpty)
+        if (t.terminal)
+          true
+        else
+          if (stack.isEmpty)
+            false
+          else
+            go(stack.head, trie, stack.tail)
+      else
+        if (!t.children.contains(s.head))
+          if (stack.isEmpty)
+            false
+          else
+            go(stack.head, trie, stack.tail)
       else {
         val subt = t.children(s.head)
-        if (subt.terminal) go(s.tail, subt, s.tail::stack)
-        else               go(s.tail, subt,         stack)
+        if (subt.terminal)
+          go(s.tail, subt, s.tail::stack)
+        else
+          go(s.tail, subt,         stack)
       }
     }
 
@@ -39,18 +51,30 @@ object CanCompose {
      * int index-based solution
      */
     def goInt(i: Int, t: Trie, stack: List[Int]): Boolean = {
-      if (i == s.length) t.terminal
-      else if (!t.children.contains(s(i)))
-        if (stack.isEmpty) false
-        else goInt(stack.head, trie, stack.tail)
+      if (i == s.length)
+        if (t.terminal)
+          true
+        else
+          if (stack.isEmpty)
+            false
+          else
+            goInt(stack.head, trie, stack.tail)
+      else
+        if (!t.children.contains(s(i)))
+          if (stack.isEmpty)
+            false
+          else
+            goInt(stack.head, trie, stack.tail)
       else {
         val subt = t.children(s(i))
-        if (subt.terminal) goInt(i+1, subt, i+1::stack)
-        else               goInt(i+1, subt,      stack)
+        if (subt.terminal)
+          goInt(i+1, subt, i+1::stack)
+        else
+          goInt(i+1, subt,      stack)
       }
     }
-    // go(s, trie, List(s))
-    goInt(0, trie, List(0))
+    go(s, trie, List(s))
+    // goInt(0, trie, List(0))
   }
 
 
@@ -76,6 +100,7 @@ object CanCompose {
 
     assert(canCompose("longread",
                       List("long", "gread", "lo", " ng", "re", "ad")))
+    assert(canCompose("abc", List("abcd", "ab", "c")))
     println("All tests passed")
   }
 }
