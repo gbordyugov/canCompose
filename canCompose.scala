@@ -38,13 +38,13 @@ object CanCompose {
             false
           else
             go(stack.head, trie, stack.tail)
-      else {
-        val subt = t.children(s.head)
-        if (subt.terminal)
-          go(s.tail, subt, s.tail::stack)
-        else
-          go(s.tail, subt,         stack)
-      }
+        else {
+          val subt = t.children(s.head)
+          if (subt.terminal)
+            go(s.tail, subt, s.tail::stack)
+          else
+            go(s.tail, subt,         stack)
+        }
     }
 
     /*
@@ -65,13 +65,13 @@ object CanCompose {
             false
           else
             goInt(stack.head, trie, stack.tail)
-      else {
-        val subt = t.children(s(i))
-        if (subt.terminal)
-          goInt(i+1, subt, i+1::stack)
-        else
-          goInt(i+1, subt,      stack)
-      }
+        else {
+          val subt = t.children(s(i))
+          if (subt.terminal)
+            goInt(i+1, subt, i+1::stack)
+          else
+            goInt(i+1, subt,      stack)
+        }
     }
     // go(s, trie, List(s))
     goInt(0, trie, List(0))
