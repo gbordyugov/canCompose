@@ -73,8 +73,8 @@ object CanCompose {
           goInt(i+1, subt,      stack)
       }
     }
-    go(s, trie, List(s))
-    // goInt(0, trie, List(0))
+    // go(s, trie, List(s))
+    goInt(0, trie, List(0))
   }
 
 
